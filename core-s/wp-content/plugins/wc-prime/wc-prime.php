@@ -104,7 +104,7 @@ class WcPrime
         register_deactivation_hook(WC_PRIME_FILE, [$this, 'deactivate']);
         // set locale
         $this->loader->addAction('plugins_loaded', $this, 'loadPluginTextdomain');
-        $this->registerAdminHooks();
+        $this->loader->addAction('init', $this, 'registerAdminHooks');
     }
 
 }
