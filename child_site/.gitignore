@@ -3,6 +3,7 @@
 
 # ignore uploaded files
 wp-content/uploads/
+wp-content/upgrade/
 
 # ignore these plugins from the core
 wp-content/plugins/hello.php
