@@ -1,0 +1,1 @@
+{"version":3,"sources":["base/_common.scss","style.css"],"names":[],"mappings":"AAAA,eCCE,kBAAkB,EAAA;;AACpB,6RAA6R","file":"style.css","sourcesContent":[".text-center {\n  text-align: center;\n}\n"]}
