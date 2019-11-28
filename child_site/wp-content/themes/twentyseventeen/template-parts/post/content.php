@@ -2,7 +2,7 @@
 /**
  * Template part for displaying posts
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
@@ -22,12 +22,12 @@
 		<?php
 		if ( 'post' === get_post_type() ) {
 			echo '<div class="entry-meta">';
-			if ( is_single() ) {
-				twentyseventeen_posted_on();
-			} else {
-				echo twentyseventeen_time_link();
-				twentyseventeen_edit_link();
-			};
+				if ( is_single() ) {
+					twentyseventeen_posted_on();
+				} else {
+					echo twentyseventeen_time_link();
+					twentyseventeen_edit_link();
+				};
 			echo '</div><!-- .entry-meta -->';
 		};
 
@@ -51,22 +51,18 @@
 
 	<div class="entry-content">
 		<?php
-		the_content(
-			sprintf(
-				/* translators: %s: Post title. */
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
-				get_the_title()
-			)
-		);
+		/* translators: %s: Name of current post */
+		the_content( sprintf(
+			__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
+			get_the_title()
+		) );
 
-		wp_link_pages(
-			array(
-				'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
-				'after'       => '</div>',
-				'link_before' => '<span class="page-number">',
-				'link_after'  => '</span>',
-			)
-		);
+		wp_link_pages( array(
+			'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
+			'after'       => '</div>',
+			'link_before' => '<span class="page-number">',
+			'link_after'  => '</span>',
+		) );
 		?>
 	</div><!-- .entry-content -->
 
@@ -76,4 +72,4 @@
 	}
 	?>
 
-</article><!-- #post-<?php the_ID(); ?> -->
+</article><!-- #post-## -->
