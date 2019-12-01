@@ -19,6 +19,9 @@
  * Domain Path:       /languages
  */
 
+use WcPrime\ChildSite;
+use WcPrime\WP\MetaBox;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -39,17 +42,13 @@ require_once(WC_PRIME_DIR . '/src/helpers.php');
 
 class WcPrime
 {
+    use WcPrime\SingletonTrait;
+
     protected $loader;
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
+    protected $services = [
+        'metabox' => MetaBox::class,
+    ];
+    protected $registeredServices = [];
 
     /**
      * The code that runs during plugin activation.
@@ -80,6 +79,12 @@ class WcPrime
             // only need to enqueue this because vendor is a dependency
             wp_enqueue_script('wc-prime-script');
         });
+        // register cpt: site
+        ChildSite::register();
+        // register metabox
+        add_action('add_meta_boxes', [MetaBox::class, 'register']);
+        // register save metabox
+        add_action('save_post', [MetaBox::class, 'registerSaving']);
     }
 
     /**
@@ -90,7 +95,7 @@ class WcPrime
         load_plugin_textdomain(
 			'wc-prime',
 			false,
-			WC_PRIME_DIR . '/languages/'
+			WC_PRIME_DIR . '/src/languages/'
 		);
     }
 
@@ -104,6 +109,11 @@ class WcPrime
         return $this->loader;
     }
 
+    public function getService($key = '')
+    {
+        return isset($this->registeredServices[$key]) ? $this->registeredServices[$key] : $this;
+    }
+
     private function __construct()
     {
         // register loader
@@ -113,20 +123,24 @@ class WcPrime
         register_deactivation_hook(WC_PRIME_FILE, [$this, 'deactivate']);
         // set locale
         $this->loader->addAction('plugins_loaded', $this, 'loadPluginTextdomain');
+        // register services
+        foreach ($this->services as $key => $class) {
+            $this->registeredServices[$key] = $class::getInstance();
+        }
+        // init
         $this->loader->addAction('init', $this, 'registerAdminHooks');
     }
 
 }
 
 // run the plugin
-function wcsalite() {
-    global $wcsalite;
-    if (!isset($wcsalite)) {
-        $wcsalite = WcPrime::getInstance();
-        $wcsalite->run();
+function wcprime($serviceName = '') {
+    global $wcprime;
+    if (!isset($wcprime)) {
+        $wcprime = WcPrime::getInstance();
+        $wcprime->run();
     }
-
-    return $wcsalite;
+    return $wcprime->getService($serviceName);
 }
 
-wcsalite();
+wcprime();
