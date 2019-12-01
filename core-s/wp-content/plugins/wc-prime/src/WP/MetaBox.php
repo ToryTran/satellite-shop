@@ -92,9 +92,13 @@ class MetaBox
     {
         $value = get_post_meta($post->ID, $field['id'], true);
         ?>
-            <div class="wcp-field">
-                <label for="<?php echo $this->id($field['id']) ?>"><?php echo $field['title'] ?></label>
-                <input type="text" id="<?php echo $this->id($field['id']) ?>" name="<?php echo $field['id'] ?>" placeholder="<?php echo $field['placeholder'] ?>" value="<?php echo esc_attr($value); ?>" />
+            <div class="wcp-group row">
+                <div class="col-4">
+                    <label for="<?php echo $this->id($field['id']) ?>"><?php echo $field['title'] ?></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" class="wcp-control" id="<?php echo $this->id($field['id']) ?>" name="<?php echo $field['id'] ?>" placeholder="<?php echo $field['placeholder'] ?>" value="<?php echo esc_attr($value); ?>" />
+                </div>
             </div>
         <?php
     }
@@ -103,9 +107,13 @@ class MetaBox
     {
         $value = get_post_meta($post->ID, $field['id'], true);
         ?>
-            <div class="wcp-field">
-                <label for="<?php echo $this->id($field['id']) ?>"><?php echo $field['title'] ?></label>
-                <input type="checkbox" id="<?php echo $this->id($field['id']) ?>" name="<?php echo $field['id'] ?>" placeholder="<?php echo $field['placeholder'] ?>" value="1" <?php checked(1, $value, true) ?> />
+            <div class="wcp-group row">
+                <div class="col-4">
+                    <label for="<?php echo $this->id($field['id']) ?>"><?php echo $field['title'] ?></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" class="wcp-control" id="<?php echo $this->id($field['id']) ?>" name="<?php echo $field['id'] ?>" placeholder="<?php echo $field['placeholder'] ?>" value="1" <?php checked(1, $value, true) ?> />
+                </div>
             </div>
         <?php
     }
